@@ -1,0 +1,53 @@
+version: '3.6'
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.7
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://pgdb:5432/keycloak_db
+      KC_DB_USERNAME: keycloak_user
+      KC_DB_PASSWORD: keycloak
+
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command: start-dev
+    depends_on:
+      - pgdb
+    ports:
+      - 8080:8080
+
+  pgdb:
+    image: postgres:16
+#    restart: always
+    shm_size: 256mb
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./tmp/postgres:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "export PGUSER='postgres' && pg_isready -d postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  valkey:
+    image: valkey/valkey:9
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ./tmp/valkey:/data
+      - ./valkey-init/valkey.conf:/etc/valkey/valkey.conf
+    command: valkey-server /etc/valkey/valkey.conf
