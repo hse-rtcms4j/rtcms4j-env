@@ -1,0 +1,3 @@
+user default off
+
+user valkey on >valkey ~* &* +@all -@dangerous +info

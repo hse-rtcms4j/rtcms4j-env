@@ -28,7 +28,6 @@ services:
 
   pgdb:
     image: postgres:16
-#    restart: always
     shm_size: 256mb
     ports:
       - 5432:5432
@@ -36,7 +35,7 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - ./tmp/postgres:/var/lib/postgresql/data
-      - ./postgres-init:/docker-entrypoint-initdb.d
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD-SHELL", "export PGUSER='postgres' && pg_isready -d postgres"]
       interval: 5s
@@ -45,10 +44,18 @@ services:
 
   valkey:
     image: valkey/valkey:9
-    restart: always
     ports:
       - 6379:6379
     volumes:
       - ./tmp/valkey:/data
-      - ./valkey-init/valkey.conf:/etc/valkey/valkey.conf
-    command: valkey-server /etc/valkey/valkey.conf
+      - ./valkey-init/valkey.acl:/etc/valkey/valkey.acl:ro
+      - ./valkey-init/valkey.conf:/etc/valkey/valkey.conf:ro
+    command: >
+      valkey-server
+      /etc/valkey/valkey.conf
+      --aclfile /etc/valkey/valkey.acl
+    healthcheck:
+      test: ["CMD-SHELL", "valkey-cli", "--raw", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
