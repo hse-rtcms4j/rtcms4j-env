@@ -1,3 +1,5 @@
 user default off
 
 user valkey on >valkey ~* &* +@all -@dangerous +info
+user rtcms4j_core on >rtcms4j ~* &* +@all -@dangerous +info
+user rtcms4j_notify on >rtcms4j ~* &* +@all -@dangerous +info
