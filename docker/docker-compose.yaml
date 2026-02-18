@@ -32,10 +32,14 @@ services:
       KC_DB_USERNAME: keycloak_user
       KC_DB_PASSWORD: keycloak
 
-      KC_HOSTNAME: keycloak
+      KC_HOSTNAME: http://localhost:8080
       KC_HOSTNAME_PORT: 8080
       KC_HOSTNAME_STRICT: false
       KC_HOSTNAME_STRICT_HTTPS: false
+
+      KC_HOSTNAME_STRICT_BACKCHANNEL: false
+      KC_HOSTNAME_BACKCHANNEL_DYNAMIC: true
+
       KC_PROXY: edge
       KC_HTTP_ENABLED: true
       KC_HTTP_HOST: 0.0.0.0
@@ -94,7 +98,7 @@ services:
       - internal_net
 
   rtcms4j-core:
-    image: ghcr.io/hse-rtcms4j/rtcms4j-core-server:latest
+    image: ghcr.io/hse-rtcms4j/rtcms4j-core-server:0.1.2
     ports:
       - 8081:8080
     volumes:
@@ -110,7 +114,7 @@ services:
       - internal_net
 
   rtcms4j-notify:
-    image: ghcr.io/hse-rtcms4j/rtcms4j-notify-server:latest
+    image: ghcr.io/hse-rtcms4j/rtcms4j-notify-server:0.1.2
     ports:
       - 8082:8080
     volumes:
@@ -151,3 +155,10 @@ services:
     networks:
       - public_net
       - internal_net
+
+  rtcms4j-web:
+    image: ghcr.io/hse-rtcms4j/rtcms4j-web:d64e8dc5acd191e4236e38715464d1762c192f49
+    ports:
+      - "3000:3000"
+    networks:
+      - public_net
