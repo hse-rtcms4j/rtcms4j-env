@@ -1,0 +1,28 @@
+---
+server:
+  port: 8080
+
+spring:
+  data:
+    redis:
+      host: valkey
+      port: 6379
+      username: rtcms4j_notify
+      password: rtcms4j
+      database: 0
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak:8080/realms/rtcms4j/protocol/openid-connect/certs
+#          issuer-uri: http://keycloak:8080/realms/rtcms4j
+
+core-api:
+  base-url: http://rtcms4j-core:8080/api/v1

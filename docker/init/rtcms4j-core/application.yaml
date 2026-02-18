@@ -1,0 +1,41 @@
+---
+server:
+  port: 8080
+
+spring:
+  liquibase:
+    enabled: true
+
+  data:
+    redis:
+      host: valkey
+      port: 6379
+      username: rtcms4j_core
+      password: rtcms4j
+      database: 0
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  datasource:
+    url: jdbc:postgresql://pgdb:5432/rtcms4j_db
+    username: rtcms4j_user
+    password: rtcms4j
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak:8080/realms/rtcms4j/protocol/openid-connect/certs
+#          issuer-uri: http://keycloak:8080/realms/rtcms4j
+
+keycloak:
+  server-url: http://keycloak:8080
+  realm: rtcms4j
+  retries-limit: 5
+  admin:
+    client-id: rtcms4j-admin
+    client-secret: 3OWjIdxNVcaGZP5PcXR6uxpIVXtmfDFi
