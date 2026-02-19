@@ -26,6 +26,9 @@ This setup uses Docker Compose to bring up three services:
     - Frontend: `http://localhost:3000`
     - Backend (via API Gateway): `http://localhost:8000`
 
+3. **Persistent storage**:
+    - `/tmp` folder is generated and served as volumes storage for postgres and valkey.
+
 ## Keycloak Setup
 
 1. **Create an admin user** in Keycloak:
