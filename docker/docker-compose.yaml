@@ -157,7 +157,7 @@ services:
       - internal_net
 
   rtcms4j-web:
-    image: ghcr.io/hse-rtcms4j/rtcms4j-web:d64e8dc5acd191e4236e38715464d1762c192f49
+    image: ghcr.io/hse-rtcms4j/rtcms4j-web:0.1.0
     ports:
       - "3000:3000"
     networks:
