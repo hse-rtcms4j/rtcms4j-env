@@ -47,6 +47,11 @@ This setup uses Docker Compose to bring up three services:
 - **Frontend**: After starting up, the frontend will be available at `http://localhost:3000`.
 - **Backend**: The backend API is accessible through the API Gateway at `http://localhost:8000`.
 
+## Further setup
+
+Using frontend web-ui, you can create namespace and its application. This will allow you to get namespace id,
+application id and credentials for your Spring Boot projects.
+
 ## Stopping the Services
 
 To stop and remove the containers, run:
