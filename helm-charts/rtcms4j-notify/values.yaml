@@ -1,0 +1,88 @@
+### replicas
+replicaCount: 1
+
+### versions
+image:
+  repository: "ghcr.io/hse-rtcms4j/rtcms4j-notify-server"
+  tag: "0.1.4"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+podLabels: {}
+podSecurityContext: {}
+securityContext: {}
+
+### service
+service:
+  type: ClusterIP
+  port: 80
+
+serviceAccount:
+  create: false
+
+ingress:
+  enabled: false
+
+httpRoute:
+  enabled: false
+
+autoscaling:
+  enabled: false
+
+resources: {}
+
+### probes
+livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: http
+  initialDelaySeconds: 120
+  periodSeconds: 5
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: http
+  initialDelaySeconds: 120
+  periodSeconds: 10
+
+### config maps
+volumeMounts:
+  - name: app-config
+    mountPath: /app/config
+    readOnly: true
+
+volumes:
+  - name: app-config
+    configMap:
+      name: rtcms4j-notify-cm
+
+configMapFiles:
+  name: rtcms4j-notify-cm
+  files:
+    - "application.yaml"
+
+### envs
+envFrom:
+  - configMapRef:
+      name: rtcms4j-notify-env-cm
+  - secretRef:
+      name: rtcms4j-notify-env-sec
+
+configMapEnv:
+  name: rtcms4j-notify-env-cm
+  data:
+    JDK_JAVA_OPTIONS: -Dspring.config.additional-location=/app/config/application.yaml
+
+secretEnv:
+  name: rtcms4j-notify-env-sec
+  data:
+    SPRING_DATA_REDIS_USERNAME: rtcms4j_notify
+    SPRING_DATA_REDIS_PASSWORD: rtcms4j
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

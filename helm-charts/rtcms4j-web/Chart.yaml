@@ -1,0 +1,7 @@
+apiVersion: v2
+name: rtcms4j-web
+description: Helm-chart for deploying RTCMS4J web-ui
+
+type: application
+version: 0.1.0
+appVersion: "0.1.4"

@@ -1,0 +1,22 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: rtcms4j-notify-route
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`rtcms4j-api.enzhine.ru`) && PathPrefix(`/notify`)
+      middlewares:
+        - name: strip-notify-prefix
+        - name: cors-headers
+      services:
+        - kind: Service
+          name: rtcms4j-notify
+          namespace: default
+          port: 80
+          scheme: http
+  tls:
+    secretName: wildcard-enzhine-ru-tls

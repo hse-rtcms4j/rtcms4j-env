@@ -1,0 +1,7 @@
+apiVersion: v2
+name: rtcms4j-core
+description: Helm-chart for deploying RTCMS4J core service
+
+type: application
+version: 0.1.0
+appVersion: "0.1.4"

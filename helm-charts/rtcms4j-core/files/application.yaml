@@ -1,0 +1,43 @@
+---
+server:
+  port: 80
+
+spring:
+  liquibase:
+    enabled: true
+
+  data:
+    redis:
+      host: valkey
+      port: 6379
+      database: 0
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  datasource:
+    url: jdbc:postgresql://postgres-cluster-rw:5432,postgres-cluster-ro:5432/rtcms4j_db?targetServerType=master&loadBalanceHosts=true
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://keycloak:80/realms/rtcms4j/protocol/openid-connect/certs
+
+keycloak:
+  server-url: http://keycloak:80
+  realm: rtcms4j
+  retries-limit: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      probes:
+        enabled: true

@@ -1,0 +1,5 @@
+valkey installed via helm:
+
+helm repo add valkey https://valkey.io/valkey-helm/
+helm repo update
+helm install valkey valkey/valkey -f values.yaml

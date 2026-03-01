@@ -1,0 +1,48 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-cluster
+spec:
+  instances: 2
+  storage:
+    size: 10Gi
+
+  bootstrap:
+    initdb:
+      database: postgres
+      owner: postgres
+      postInitSQL:
+        - CREATE ROLE keycloak_user WITH LOGIN PASSWORD 'keycloak';
+        - CREATE ROLE rtcms4j_user WITH LOGIN PASSWORD 'rtcms4j';
+        - CREATE DATABASE keycloak_db OWNER keycloak_user;
+        - CREATE DATABASE rtcms4j_db OWNER rtcms4j_user;
+      postInitApplicationSQL:
+        - |
+          \c keycloak_db
+          CREATE SCHEMA IF NOT EXISTS keycloak AUTHORIZATION keycloak_user;
+          GRANT USAGE, CREATE ON SCHEMA keycloak TO keycloak_user;
+          ALTER DEFAULT PRIVILEGES FOR ROLE keycloak_user IN SCHEMA keycloak
+            GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO keycloak_user;
+          ALTER DEFAULT PRIVILEGES FOR ROLE keycloak_user IN SCHEMA keycloak
+            GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO keycloak_user;
+        - |
+          \c rtcms4j_db
+          CREATE SCHEMA IF NOT EXISTS rtcms4j AUTHORIZATION rtcms4j_user;
+          GRANT USAGE, CREATE ON SCHEMA rtcms4j TO rtcms4j_user;
+          ALTER DEFAULT PRIVILEGES FOR ROLE rtcms4j_user IN SCHEMA rtcms4j
+            GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO rtcms4j_user;
+          ALTER DEFAULT PRIVILEGES FOR ROLE rtcms4j_user IN SCHEMA rtcms4j
+            GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO rtcms4j_user;
+
+  managed:
+    roles:
+      - name: keycloak_user
+        ensure: present
+        login: true
+        passwordSecret:
+          name: keycloak-user-secret
+      - name: rtcms4j_user
+        ensure: present
+        login: true
+        passwordSecret:
+          name: rtcms4j-user-secret
