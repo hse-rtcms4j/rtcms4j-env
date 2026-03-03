@@ -1,0 +1,31 @@
+replicaCount: 1
+mode: "standalone"
+
+rootUser: "admin"
+rootPassword: "admin-key"
+
+persistence:
+  enabled: true
+  storageClass: "local-path"
+  size: 25Gi
+  accessMode: ReadWriteOnce
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "0.5"
+  limits:
+    memory: "1Gi"
+    cpu: "1"
+
+service:
+  type: ClusterIP
+  port: 9000
+
+buckets:
+  - name: loki
+    policy: none
+    purge: false
+  - name: tempo
+    policy: none
+    purge: false

@@ -1,0 +1,20 @@
+production: true
+
+image:
+  repository: bitnamilegacy/keycloak
+
+postgresql:
+  enabled: false
+
+externalDatabase:
+  host: postgres-cluster-rw
+  port: 5432
+  database: keycloak_db
+  user: keycloak_user
+  password: keycloak
+
+auth:
+  adminUser: admin
+  adminPassword: admin
+
+proxyHeaders: xforwarded

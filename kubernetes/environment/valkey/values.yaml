@@ -1,0 +1,18 @@
+auth:
+  enabled: true
+  aclUsers:
+    default:
+      password: "default"
+      permissions: "~* &* +@all"
+    rtcms4j_core:
+      password: "rtcms4j"
+      permissions: "~* &* +@all -@dangerous +info"
+    rtcms4j_notify:
+      password: "rtcms4j"
+      permissions: "~* &* +@all -@dangerous +info"
+
+replica:
+  enabled: true
+  replicas: 3
+  persistence:
+    size: 10Gi

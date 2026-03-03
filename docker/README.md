@@ -1,6 +1,6 @@
 # Docker Compose Setup
 
-This setup uses Docker Compose to bring up three services:
+This setup uses Docker Compose to bring up three subsystems:
 
 - **Keycloak**: Identity and Access Management, available on port `8080`
 - **Frontend**: The user interface for the application, available on port `3000`

@@ -1,0 +1,48 @@
+loki:
+  image:
+    tag: "2.9.3"
+
+  storageConfig:
+    boltdb_shipper:
+      active_index_directory: /mnt/loki/index
+      cache_location: /mnt/loki/cache
+      shared_store: s3
+    s3:
+      endpoint: "minio:9000"
+      bucket: "loki"
+      access_key_id: "admin"
+      secret_access_key: "admin-key"
+      insecure: true
+      region: "us-east-1"
+      v4: true
+
+    max_look_back_period: 0s
+
+promtail:
+  enabled: false
+
+replicaCount: 1
+
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 500m
+  limits:
+    memory: 2Gi
+    cpu: 1
+
+service:
+  type: ClusterIP
+  port: 3100
+
+distributor:
+  ring:
+    kvstore:
+      store: consul
+    replication_factor: 1
+
+retention:
+  enabled: true
+  max_age: 7d
+
+auth_enabled: false

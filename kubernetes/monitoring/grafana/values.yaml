@@ -1,0 +1,86 @@
+adminUser: admin
+adminPassword: admin
+
+persistence:
+  enabled: true
+  size: 10Gi
+  accessModes:
+    - ReadWriteOnce
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 200m
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: VictoriaMetrics
+        type: prometheus
+        url: http://victoriametrics-victoria-metrics-single-server.observing:8428
+        access: proxy
+        isDefault: true
+        jsonData:
+          timeInterval: 30s
+
+      - name: Loki
+        type: loki
+        url: http://loki.observing:3100
+        access: proxy
+        jsonData:
+          maxLines: 1000
+          derivedFields:
+            - name: TraceID
+              matcherRegex: '"trace_id":"(\w+)"'
+              url: '$${__value.raw}'
+              datasourceUid: tempo
+
+      - name: Tempo
+        type: tempo
+        url: http://tempo.observing:3200
+        access: proxy
+        jsonData:
+          nodeGraph:
+            enabled: true
+          serviceMap:
+            datasourceUid: victoriametrics
+          tracesToLogs:
+            datasourceUid: loki
+            tags: ['service.name', 'pod']
+            spanStartTimeShift: '-1h'
+            spanEndTimeShift: '1h'
+
+grafana.ini:
+  server:
+    root_url: '%(protocol)s://%(domain)s/'
+  auth:
+    disable_login_form: false
+  auth.anonymous:
+    enabled: false
+  log:
+    mode: console
+  paths:
+    data: /var/lib/grafana/data
+    logs: /var/log/grafana
+    plugins: /var/lib/grafana/plugins
+    provisioning: /etc/grafana/provisioning
+
+plugins:
+  - grafana-piechart-panel
+  - grafana-worldmap-panel
+
+serviceMonitor:
+  enabled: false
+
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "3000"

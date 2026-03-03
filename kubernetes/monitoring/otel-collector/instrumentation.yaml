@@ -1,0 +1,21 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: Instrumentation
+metadata:
+  name: java-instrumentation
+  namespace: default
+spec:
+  exporter:
+    endpoint: http://otelc-collector.observing:4317
+  propagators:
+    - tracecontext
+    - baggage
+  sampler:
+    type: parentbased_always_on
+  java:
+    env:
+      - name: OTEL_LOGS_EXPORTER
+        value: otlp
+      - name: OTEL_METRICS_EXPORTER
+        value: otlp
+      - name: OTEL_TRACES_EXPORTER
+        value: otlp

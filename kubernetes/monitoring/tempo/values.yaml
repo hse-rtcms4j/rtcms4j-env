@@ -1,0 +1,31 @@
+tempo:
+  livenessProbe:
+    httpGet:
+      path: /ready
+      port: 3200
+    initialDelaySeconds: 60
+    timeoutSeconds: 5
+  readinessProbe:
+    httpGet:
+      path: /ready
+      port: 3200
+    initialDelaySeconds: 30
+    timeoutSeconds: 1
+
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "0.5"
+    limits:
+      memory: "1Gi"
+      cpu: "1"
+
+  storage:
+    trace:
+      backend: s3
+      s3:
+        endpoint: "minio:9000"
+        bucket: "tempo"
+        access_key: "admin"
+        secret_key: "admin-key"
+        insecure: true
