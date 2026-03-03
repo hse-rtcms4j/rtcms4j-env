@@ -1,0 +1,4 @@
+helm repo add greptime https://greptimeteam.github.io/helm-charts/
+helm repo update
+
+helm install minio minio/minio --namespace observing -f ./minio/values.yaml

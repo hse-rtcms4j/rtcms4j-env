@@ -1,0 +1,4 @@
+helm repo add vm https://victoriametrics.github.io/helm-charts/
+helm repo update
+
+helm install victoriametrics vm/victoria-metrics-single --namespace observing -f vm/values.yaml

@@ -3,7 +3,7 @@ replicaCount: 1
 
 ### versions
 image:
-  repository: "ghcr.io/hse-rtcms4j/rtcms4j-core-server"
+  repository: "ghcr.io/hse-rtcms4j/rtcms4j-notify-server"
   tag: "0.1.4"
   pullPolicy: IfNotPresent
 
@@ -11,7 +11,9 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-podAnnotations: {}
+podAnnotations:
+  instrumentation.opentelemetry.io/inject-java: "true"
+
 podLabels: {}
 podSecurityContext: {}
 securityContext: {}
@@ -58,34 +60,30 @@ volumeMounts:
 volumes:
   - name: app-config
     configMap:
-      name: rtcms4j-core-cm
+      name: rtcms4j-notify-cm
 
 configMapFiles:
-  name: rtcms4j-core-cm
+  name: rtcms4j-notify-cm
   files:
     - "application.yaml"
 
 ### envs
 envFrom:
   - configMapRef:
-      name: rtcms4j-core-env-cm
+      name: rtcms4j-notify-env-cm
   - secretRef:
-      name: rtcms4j-core-env-sec
+      name: rtcms4j-notify-env-sec
 
 configMapEnv:
-  name: rtcms4j-core-env-cm
+  name: rtcms4j-notify-env-cm
   data:
     JDK_JAVA_OPTIONS: -Dspring.config.additional-location=/app/config/application.yaml
 
 secretEnv:
-  name: rtcms4j-core-env-sec
+  name: rtcms4j-notify-env-sec
   data:
-    SPRING_DATA_REDIS_USERNAME: rtcms4j_core
+    SPRING_DATA_REDIS_USERNAME: rtcms4j_notify
     SPRING_DATA_REDIS_PASSWORD: rtcms4j
-    SPRING_DATASOURCE_USERNAME: rtcms4j_user
-    SPRING_DATASOURCE_PASSWORD: rtcms4j
-    KEYCLOAK_ADMIN_CLIENTID: rtcms4j-admin
-    KEYCLOAK_ADMIN_CLIENTSECRET: XXX
 
 nodeSelector: {}
 tolerations: []

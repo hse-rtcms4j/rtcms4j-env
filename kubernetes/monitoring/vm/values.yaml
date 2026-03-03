@@ -1,0 +1,12 @@
+server:
+  persistentVolume:
+    enabled: true
+    size: 10Gi
+  retentionPeriod: "7d"
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 250m
+  service:
+    type: ClusterIP
+    port: 8428
