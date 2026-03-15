@@ -98,7 +98,7 @@ services:
       - internal_net
 
   rtcms4j-core:
-    image: ghcr.io/hse-rtcms4j/rtcms4j-core-server:0.1.4
+    image: ghcr.io/hse-rtcms4j/rtcms4j-core-server:0.1.5
     ports:
       - 8081:8080
     volumes:
@@ -157,7 +157,7 @@ services:
       - internal_net
 
   rtcms4j-web:
-    image: ghcr.io/hse-rtcms4j/rtcms4j-web:0.1.4
+    image: ghcr.io/hse-rtcms4j/rtcms4j-web:0.1.5
     ports:
       - "3000:3000"
     networks:
