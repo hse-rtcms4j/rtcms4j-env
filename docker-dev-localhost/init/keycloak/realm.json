@@ -958,18 +958,18 @@
       "clientId": "rtcms4j-web",
       "name": "",
       "description": "Frontend client",
-      "rootUrl": "http://localhost:5173",
-      "adminUrl": "http://localhost:5173",
+      "rootUrl": "http://localhost:3000",
+      "adminUrl": "http://localhost:3000",
       "baseUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:5173/*"
+        "http://localhost:3000/*"
       ],
       "webOrigins": [
-        "http://localhost:5173"
+        "http://localhost:3000"
       ],
       "notBefore": 0,
       "bearerOnly": false,

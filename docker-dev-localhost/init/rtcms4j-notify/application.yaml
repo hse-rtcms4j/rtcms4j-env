@@ -1,0 +1,27 @@
+---
+server:
+  port: 8082
+
+spring:
+  data:
+    redis:
+      host: host.docker.internal
+      port: 6379
+      username: rtcms4j_notify
+      password: rtcms4j
+      database: 0
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://host.docker.internal:8080/realms/rtcms4j/protocol/openid-connect/certs
+
+core-api:
+  base-url: http://host.docker.internal:8081

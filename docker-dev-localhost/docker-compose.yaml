@@ -19,7 +19,7 @@ services:
     image: quay.io/keycloak/keycloak:26.0.7
     environment:
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://pgdb:5432/keycloak_db
+      KC_DB_URL: jdbc:postgresql://host.docker.internal:5432/keycloak_db
       KC_DB_USERNAME: keycloak_user
       KC_DB_PASSWORD: keycloak
 
@@ -83,6 +83,34 @@ services:
       timeout: 5s
       retries: 5
 
+  rtcms4j-core:
+    image: ghcr.io/hse-rtcms4j/rtcms4j-core-server:0.1.5
+    ports:
+      - 8081:8081
+    volumes:
+      - ./init/rtcms4j-core:/config:ro
+    environment:
+      SPRING_CONFIG_ADDITIONAL_LOCATION: /config/application.yaml
+    depends_on:
+      keycloak:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+
+  rtcms4j-notify:
+    image: ghcr.io/hse-rtcms4j/rtcms4j-notify-server:0.1.5
+    ports:
+      - 8082:8082
+    volumes:
+      - ./init/rtcms4j-notify:/config:ro
+    environment:
+      SPRING_CONFIG_ADDITIONAL_LOCATION: /config/application.yaml
+    depends_on:
+      keycloak:
+        condition: service_healthy
+      valkey:
+        condition: service_healthy
+
   kong:
     image: kong:3.7
     ports:
@@ -106,5 +134,8 @@ services:
       interval: 10s
       timeout: 10s
       retries: 3
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+
+  rtcms4j-web:
+    image: ghcr.io/hse-rtcms4j/rtcms4j-web:0.1.5
+    ports:
+      - "3000:3000"

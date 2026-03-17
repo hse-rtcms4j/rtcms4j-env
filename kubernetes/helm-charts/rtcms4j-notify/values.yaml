@@ -4,7 +4,7 @@ replicaCount: 1
 ### versions
 image:
   repository: "ghcr.io/hse-rtcms4j/rtcms4j-notify-server"
-  tag: "0.1.4"
+  tag: "0.1.5"
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
