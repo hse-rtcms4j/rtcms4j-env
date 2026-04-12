@@ -84,7 +84,7 @@ services:
       retries: 5
 
   rtcms4j-core:
-    image: ghcr.io/hse-rtcms4j/rtcms4j-core-server:0.1.5
+    image: ghcr.io/hse-rtcms4j/rtcms4j-core-server:1.0.0
     ports:
       - 8081:8081
     volumes:
@@ -98,7 +98,7 @@ services:
         condition: service_healthy
 
   rtcms4j-notify:
-    image: ghcr.io/hse-rtcms4j/rtcms4j-notify-server:0.1.5
+    image: ghcr.io/hse-rtcms4j/rtcms4j-notify-server:1.0.0
     ports:
       - 8082:8082
     volumes:
@@ -136,6 +136,6 @@ services:
       retries: 3
 
   rtcms4j-web:
-    image: ghcr.io/hse-rtcms4j/rtcms4j-web:0.1.5
+    image: ghcr.io/hse-rtcms4j/rtcms4j-web:1.0.0
     ports:
       - "3000:3000"
