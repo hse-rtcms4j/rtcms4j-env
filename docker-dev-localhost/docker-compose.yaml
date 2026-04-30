@@ -136,6 +136,6 @@ services:
       retries: 3
 
   rtcms4j-web:
-    image: ghcr.io/hse-rtcms4j/rtcms4j-web:1.0.0
+    image: ghcr.io/hse-rtcms4j/rtcms4j-web:1.0.1
     ports:
       - "3000:3000"
