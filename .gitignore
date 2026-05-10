@@ -1,2 +1,4 @@
 .idea
 **/tmp/*
+
+**/values-prod.yaml

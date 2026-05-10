@@ -4,7 +4,7 @@ replicaCount: 1
 ### versions
 image:
   repository: "ghcr.io/hse-rtcms4j/rtcms4j-core-server"
-  tag: "1.0.0"
+  tag: "1.0.1"
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -87,7 +87,7 @@ secretEnv:
     SPRING_DATASOURCE_USERNAME: rtcms4j_user
     SPRING_DATASOURCE_PASSWORD: rtcms4j
     KEYCLOAK_ADMIN_CLIENTID: rtcms4j-admin
-    KEYCLOAK_ADMIN_CLIENTSECRET: 8cCznIV4yqXWE1JVBK4gqkLPA8tQwhXZ
+    KEYCLOAK_ADMIN_CLIENTSECRET: XXX
 
 nodeSelector: {}
 tolerations: []
